@@ -31,7 +31,8 @@ ll lazy[2*MAXN];
 #define rchild (2*curr + 1)
 #define mid ((lo + hi) / 2)
 
-void down(int curr) { //pass laziness down to children
+//pass laziness down to children
+void down(int curr) { 
 	segtree[curr].sum += lazy[curr] * segtree[curr].numleaves;
 	if (curr < MAXN) { //curr is not a leaf
 		lazy[lchild] += lazy[curr];
@@ -56,13 +57,13 @@ void update(int left, int right, int val, int curr = 1, int lo = 0, int hi = MAX
 }
 
 // find arr[left] + arr[left+1] + ... + arr[right-1] + arr[right]
-node ask(int left, int right, int curr = 1, int lo = 0, int hi = MAXN - 1) {
+node aks(int left, int right, int curr = 1, int lo = 0, int hi = MAXN - 1) {
 	if (lazy[curr] != 0) down(curr);
 	if (left >  hi || lo >  right) return ZERO;
 	if (left <= lo && hi <= right) return segtree[curr];
 
-	return ask(left, right, lchild, lo, mid)
-		 + ask(left, right, rchild, mid+1, hi);
+	return aks(left, right, lchild, lo, mid)
+		 + aks(left, right, rchild, mid+1, hi);
 }
 
 void build() {
@@ -81,11 +82,9 @@ void solve() {
 	while(nqueries--) {
 		scanf("%d %d %d", &type, &p, &q);
 		if (p > q) swap(p, q);
-		if (type) { 
-            //query
-			printf("%lld\n", ask(p, q).sum);
-        } else { 
-            //update
+		if (type) { //query
+			printf("%lld\n", aks(p, q).sum);
+        } else { //update
 			scanf("%d", &val);
 			update(p, q, val);
 		}
