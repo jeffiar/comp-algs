@@ -35,14 +35,16 @@ void build(node segtree[], int arr[]) {
 		segtree[curr] = segtree[lchild] + segtree[rchild];
 }
 
-void update(node segtree[], int index, int value) {
-	int curr = MAXN + index;
-	segtree[curr] = value;
+// set arr[i] = val
+void update(node segtree[], int i, int val) {
+	int curr = MAXN + i;
+	segtree[curr] = val;
 	curr /= 2;
 	for(; curr > 0; curr /= 2)
 		segtree[curr] = segtree[lchild] + segtree[rchild];
 }
 
+// find arr[left] + arr[left+1] ... + arr[right-1] + arr[right]
 node aks(node segtree[], int left, int right, int curr = 1, int lo = 0, int hi = MAXN - 1) {
 	if (left >  hi || lo >  right) return ZERO;
 	if (left <= lo && hi <= right) return segtree[curr];
@@ -50,6 +52,7 @@ node aks(node segtree[], int left, int right, int curr = 1, int lo = 0, int hi =
 		 + aks(segtree, left, right, rchild, mid+1, hi);
 }
 
+//for debugging
 void printtree(node segtree[]) {
 	for(int i = 1; i < 2 * MAXN; i++) {
 		printf("%d\t", segtree[i].maxval);
