@@ -12,37 +12,37 @@ typedef priority_queue<pii, vector<pii>, greater<pii> > PQ;
 bool vis[MAXN];
 
 int main() {
-	int n, m;
-	scanf("%d %d", &n, &m);
+    int n, m;
+    scanf("%d %d", &n, &m);
 
     vector<vector<pii>> edges(n);
-	while(m--) {
-		int u, v, w;
-		scanf("%d %d %d", &u, &v, &w);
-		edges[u].push_back({w, v});
-		edges[v].push_back({w, u});
-	}
+    while(m--) {
+        int u, v, w;
+        scanf("%d %d %d", &u, &v, &w);
+        edges[u].push_back({w, v});
+        edges[v].push_back({w, u});
+    }
 
-	PQ pq;
-	pq.push({0,0});
-	while(!pq.empty()) {
-		int dist = pq.top().first;
-		int curr = pq.top().second;
-		pq.pop();
+    PQ pq;
+    pq.push({0,0});
+    while(!pq.empty()) {
+        int dist = pq.top().first;
+        int curr = pq.top().second;
+        pq.pop();
 
-		if (vis[curr] != false) continue;
-		vis[curr] = true;
+        if (vis[curr] != false) continue;
+        vis[curr] = true;
 
         /*
          * curr visited in "shortest path" order here
          */
 
         for(pii it : edges[curr]) {
-			int ndist = it.first + dist;
-			int next = it.second;
-			pq.push({ndist, next});
-		}
-	}
+            int ndist = it.first + dist;
+            int next = it.second;
+            pq.push({ndist, next});
+        }
+    }
 
-	return 0;
+    return 0;
 }

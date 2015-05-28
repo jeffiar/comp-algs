@@ -30,7 +30,7 @@ int main() {
         edges[a].push_back(b);
         indeg[b]++;
     }
-    
+
     for(int i = 1; i <= n; i++) {
         if (visited[i]) continue;
         if (indeg[i] == 0)
